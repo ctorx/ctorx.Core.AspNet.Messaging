@@ -1,9 +1,9 @@
 ﻿using System;
-using ctorx.Core.Mvc.Cookies;
+using ctorx.Core.Mvc.Cookies.Extensions;
 using ctorx.Core.Mvc.Messaging.Options;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.Mvc.Messaging.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -14,7 +14,8 @@ namespace ctorx.Core.Mvc.Messaging
         {
             services.Configure(options ?? MessagingOptions.Default);
 
-            services.AddScoped<ICookieManager, DefaultCookieManager>();
+            services.AddCookieManagement();
+
             services.AddScoped<IMessenger, DefaultMesenger>();
             services.AddSingleton<IMessageFactory, DefaultMessageFactory>();
             services.AddScoped<InMemoryMessageStore>();

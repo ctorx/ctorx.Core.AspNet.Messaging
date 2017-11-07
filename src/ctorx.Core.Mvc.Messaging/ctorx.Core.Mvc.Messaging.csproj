@@ -19,7 +19,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ctorx.Core.Mvc.Cookies" Version="1.0.0" />
+    <PackageReference Include="ctorx.Core.Mvc.Cookies" Version="1.0.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
     <PackageReference Update="NETStandard.Library" Version="1.0.0" />
