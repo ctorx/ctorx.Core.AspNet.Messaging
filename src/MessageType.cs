@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.AspNet.Messaging
 {
 	[Flags]
 	public enum MessageType

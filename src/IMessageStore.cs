@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.AspNet.Messaging
 {
 	public interface IMessageStore
 	{
 		/// <summary>
 		/// Adds a message to the message store
 		/// </summary>
-		void AddMessage(IMessage message);
+		void AddMessage(Message message);
 
 		/// <summary>
 		/// Gets messages in the message store
 		/// </summary>
-		IList<IMessage> GetMessages();
+		IList<Message> GetMessages();
 	}
 }

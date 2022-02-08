@@ -1,12 +1,11 @@
-﻿using System;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace ctorx.Core.Mvc.Messaging.Options
+namespace ctorx.Core.AspNet.Messaging.Options
 {
     /// <summary>
     /// Used to build Picnic Options fluently
     /// </summary>
-    public class MessagingOptionsBuilder
+    public sealed class MessagingOptionsBuilder
     {
         readonly IServiceCollection Services;
 

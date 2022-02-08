@@ -1,0 +1,38 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Messaging Sample</h1>
+    <p>
+        The above message was added to this page using an appended message.
+    </p>
+    
+    <hr />
+    
+    <p>The following form will create a forwarded message with the text you enter.  
+        Forwarded messages are displayed on the next page load.
+    </p>
+    
+    
+    
+
+    <div class="row">
+        <div class="col-md"></div>
+        <div class="col-md-6 col-md-auto">
+            <form method="post">
+                <div class="pb-3">
+                    <label asp-for="NewMessageText"><strong>Enter some text</strong></label>
+                    <input type="text" asp-for="NewMessageText" class="form-control" required placeholder="enter something"/>
+                </div>
+                <button type="submit" class="btn btn-success">Forward Message</button>
+            </form>
+        </div>
+        <div class="col-md"></div>
+    </div>
+
+
+
+</div>

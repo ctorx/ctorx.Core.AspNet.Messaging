@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace ctorx.Core.Mvc.Messaging.Options
+namespace ctorx.Core.AspNet.Messaging.Options
 {
-    public class MessagingOptions
+    public sealed class MessagingOptions
     {
+        const string DefaultCookieKey = "fwdmsg";
+
         /// <summary>
         /// Gets or sets the CookieKey
         /// </summary>
@@ -11,7 +13,12 @@ namespace ctorx.Core.Mvc.Messaging.Options
 
         public static Action<MessagingOptions> Default = options =>
         {
-            options.CookieKey = "fwdmsg";
+            options.CookieKey = DefaultCookieKey;
         };
+
+        public MessagingOptions()
+        {
+            this.CookieKey = DefaultCookieKey;
+        }
     }
 }

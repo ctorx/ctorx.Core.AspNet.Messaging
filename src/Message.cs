@@ -1,6 +1,6 @@
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.AspNet.Messaging
 {
-    public abstract class AbstractMessage : IMessage
+    public abstract class Message
 	{
         /// <summary>
         /// Gets or sets the message severity
@@ -10,32 +10,24 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Gets or sets the Caption
         /// </summary>
-        public string Caption { get; set; }
+        public string? Caption { get; }
 
         /// <summary>
         /// Gets or sets the message text
         /// </summary>
-        public string Text { get; set; }
+        public string Text { get; }
 
         /// <summary>
-        /// Gets or sets the IsDismissable
+        /// Gets or sets the IsDismissible
         /// </summary>
-        public bool IsDismissable { get; set; }
-
-        /// <summary>
-		/// ctor the Mighty
-		/// </summary>
-		protected AbstractMessage(MessageType type)
-		{
-			this.Type = type;
-		}
+        public bool IsDismissible { get; }
 
         /// <summary>
         /// ctor the Mighty
         /// </summary>
-        protected AbstractMessage(MessageType type, string text, string caption)
+        protected Message(MessageType type, string text, string? caption = null)
         {
-            this.IsDismissable = true;
+            this.IsDismissible = true;
 
             this.Type = type;
             this.Text = text;
@@ -43,31 +35,23 @@ namespace ctorx.Core.Mvc.Messaging
         }
     }
 
-    public class SuccessMessage : AbstractMessage
+    public sealed class SuccessMessage : Message
     {
-        public SuccessMessage() : base(MessageType.Success, "Your changes have been saved.", "Success") { }
-        public SuccessMessage(string text) : base(MessageType.Success, text, "Success") { }
-        public SuccessMessage(string text, string caption) : base(MessageType.Success, text, caption) { }
+        public SuccessMessage(string text, string? caption) : base(MessageType.Success, text, caption) { }
     }
 
-    public class InfoMessage : AbstractMessage
+    public sealed class InfoMessage : Message
     {
-        public InfoMessage() : base(MessageType.Info) { }
-        public InfoMessage(string text) : base(MessageType.Info, text, "FYI") { }
-        public InfoMessage(string text, string caption) : base(MessageType.Info, text, caption) { }
+        public InfoMessage(string text, string? caption) : base(MessageType.Info, text, caption) { }
     }
 
-    public class WarnMessage : AbstractMessage
+    public sealed class WarnMessage : Message
     {
-        public WarnMessage() : base(MessageType.Warn) { }
-        public WarnMessage(string text) : base(MessageType.Warn, text, "Warning") { }
-        public WarnMessage(string text, string caption) : base(MessageType.Warn, text, caption) { }
+        public WarnMessage(string text, string? caption) : base(MessageType.Warn, text, caption) { }
     }
 
-    public class ErrorMessage : AbstractMessage
+    public sealed class ErrorMessage : Message
     {
-        public ErrorMessage() : base(MessageType.Error, "We're sorry, an unexpected error has occurred. The error has been forwarded to Student Lap Tracker Support.", "Error") { }
-        public ErrorMessage(string text) : base(MessageType.Error, text, "Error") { }
-        public ErrorMessage(string text, string caption) : base(MessageType.Error, text, caption) { }
+        public ErrorMessage(string text, string? caption) : base(MessageType.Error, text, caption) { }
     }
 }

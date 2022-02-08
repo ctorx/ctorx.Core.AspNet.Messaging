@@ -1,0 +1,59 @@
+﻿@using ctorx.Core.AspNet.Messaging
+@inject Messenger Messenger
+@{
+    var messages = this.Messenger.GetMessages();
+}
+
+@if (messages?.Count > 0)
+{
+    <div id="messages">
+        @foreach (var message in messages)
+        {
+            var messageClasses = new List<string> { "alert" };
+            var iconClass = string.Empty;
+
+            if (message.IsDismissible)
+            {
+                messageClasses.Add("alert-dismissible");
+            }
+
+            switch (message.Type)
+            {
+                case MessageType.Error:
+                    messageClasses.Add("alert-danger");
+                    iconClass = "fas fa-skull-crossbones";
+                    break;
+
+                case MessageType.Warn:
+                    messageClasses.Add("alert-warning");
+                    iconClass = "fas fa-triangle-exclamation";
+                    break;
+
+                case MessageType.Info:
+                    messageClasses.Add("alert-info");
+                    iconClass = "fas circle-info";
+                    break;
+
+                case MessageType.Success:
+                    messageClasses.Add("alert-success");
+                    iconClass = "fas fa-check";
+                    break;
+            }
+
+            <div class="@(string.Join(" ", messageClasses))" role="alert">
+                <i class="@iconClass d-inline-block me-2"></i>
+
+                @if (!string.IsNullOrWhiteSpace(message.Caption))
+                {
+                    <strong>@message.Caption</strong>
+                }
+                @Html.Raw(message.Text)
+                
+                @if (message.IsDismissible)
+                {
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                }
+            </div>
+        }
+    </div>
+}

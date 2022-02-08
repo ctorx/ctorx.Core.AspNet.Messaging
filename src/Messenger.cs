@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Options;
 
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.AspNet.Messaging
 {
-    public class DefaultMesenger : IMessenger
+    public sealed class Messenger
     {
-        readonly IMessageFactory MessageFactory;
         readonly InMemoryMessageStore InMemoryMessageStore;
         readonly InCookieMessageStore InCookieMessageStore;
 
-        /// <summary>
-        /// ctor the Mighty
-        /// </summary>
-        public DefaultMesenger(IMessageFactory messageFactory, InMemoryMessageStore inMemoryMessageStore, 
+        public Messenger(InMemoryMessageStore inMemoryMessageStore, 
             InCookieMessageStore inCookieMessageStore)
         {
-            this.MessageFactory = messageFactory;
             this.InMemoryMessageStore = inMemoryMessageStore;
             this.InCookieMessageStore = inCookieMessageStore;
         }
@@ -25,67 +18,67 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Creates and appends a message
         /// </summary>
-        void CreateAndAppendMesage(MessageType type, string messageText, string caption)
+        void CreateAndAppendMessage(MessageType type, string messageText, string? caption)
         {
-            var message = this.MessageFactory.Make(type, messageText, caption);           
+            var message = MessageFactory.Make(type, messageText, caption);           
             this.InMemoryMessageStore.AddMessage(message); 
         }
 
         /// <summary>
         /// Creates and forwards a message
         /// </summary>
-        void CreateAndForwardMessage(MessageType type, string messageText, string caption)
+        void CreateAndForwardMessage(MessageType type, string messageText, string? caption)
         {
-            var message = this.MessageFactory.Make(type, messageText, caption);
+            var message = MessageFactory.Make(type, messageText, caption);
             this.InCookieMessageStore.AddMessage(message);
         }
 
         /// <summary>
         /// Gets messages for display
         /// </summary>
-        public IList<IMessage> GetMessages()
+        public IList<Message> GetMessages()
         {
             return this.InMemoryMessageStore.GetMessages()
-                .Concat(this.InCookieMessageStore.GetMessages() ?? new List<IMessage>())
+                .Concat(this.InCookieMessageStore.GetMessages())
                 .ToList();
         }
 
         /// <summary>
         /// Appends an info message
         /// </summary>
-        public void AppendInfo(string messageText, string caption = null)
+        public void AppendInfo(string messageText, string? caption = null)
         {
-            this.CreateAndAppendMesage(MessageType.Info, messageText, caption);
+            this.CreateAndAppendMessage(MessageType.Info, messageText, caption);
         }
         
         /// <summary>
         /// Appends a Warning message
         /// </summary>
-        public void AppendWarning(string messageText, string caption = null)
+        public void AppendWarning(string messageText, string? caption = null)
         {
-            this.CreateAndAppendMesage(MessageType.Warn, messageText, caption);
+            this.CreateAndAppendMessage(MessageType.Warn, messageText, caption);
         }
         
         /// <summary>
         /// Appends an Success message
         /// </summary>
-        public void AppendSuccess(string messageText = null, string caption = null)
+        public void AppendSuccess(string messageText, string? caption = null)
         {
-            this.CreateAndAppendMesage(MessageType.Success, messageText, caption);
+            this.CreateAndAppendMessage(MessageType.Success, messageText, caption);
         }
         
         /// <summary>
         /// Appends an Error message
         /// </summary>
-        public void AppendError(string messageText = null, string caption = null)
+        public void AppendError(string messageText, string? caption = null)
         {
-            this.CreateAndAppendMesage(MessageType.Error, messageText, caption);
+            this.CreateAndAppendMessage(MessageType.Error, messageText, caption);
         }
         
         /// <summary>
         /// Forwards an info message
         /// </summary>
-        public void ForwardInfo(string messageText, string caption = null)
+        public void ForwardInfo(string messageText, string? caption = null)
         {
             this.CreateAndForwardMessage(MessageType.Info, messageText, caption);
         }
@@ -93,7 +86,7 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Forwards a Warning message
         /// </summary>
-        public void ForwardWarning(string messageText, string caption = null)
+        public void ForwardWarning(string messageText, string? caption = null)
         {
             this.CreateAndForwardMessage(MessageType.Warn, messageText, caption);
         }
@@ -101,7 +94,7 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Forwards an Success message
         /// </summary>
-        public void ForwardSuccess(string messageText = null, string caption = null)
+        public void ForwardSuccess(string messageText, string? caption = null)
         {
             this.CreateAndForwardMessage(MessageType.Success, messageText, caption);
         }
@@ -109,7 +102,7 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Forwards an Error message
         /// </summary>
-        public void ForwardError(string messageText = null, string caption = null)
+        public void ForwardError(string messageText, string? caption = null)
         {
             this.CreateAndForwardMessage(MessageType.Error, messageText, caption);
         }        

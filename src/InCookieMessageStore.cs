@@ -1,30 +1,31 @@
 using System.Collections.Generic;
+using ctorx.Core.AspNet.Messaging.Options;
 using ctorx.Core.Mvc.Cookies;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.AspNet.Messaging
 {
-    public class InCookieMessageStore : IMessageStore
+    public sealed class InCookieMessageStore : IMessageStore
     {
         readonly ICookieManager CookieManager;
-
-        // TODO: make configurable
-        string MessageCookieKey = "fwdmsg";
+        readonly MessagingOptions MessagingOptions;
 
         /// <summary>
         /// ctor the Mighty
         /// </summary>
-        public InCookieMessageStore(ICookieManager cookieManager)
+        public InCookieMessageStore(ICookieManager cookieManager, IOptions<MessagingOptions> messagingOptionsProvider)
         {
+            this.MessagingOptions = messagingOptionsProvider.Value;
             this.CookieManager = cookieManager;
         }
 
         /// <summary>
         /// Adds a message to the message store
         /// </summary>
-        public void AddMessage(IMessage message)
+        public void AddMessage(Message message)
         {
-            var messages = this.GetMessagesFromCookie() ?? new List<IMessage>();
+            var messages = this.GetMessagesFromCookie();
             messages.Add(message);
             this.SetMessagesInCookie(messages);
         }
@@ -32,35 +33,35 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Gets messages in the message store
         /// </summary>
-        public IList<IMessage> GetMessages()
+        public IList<Message> GetMessages()
         {
             var messages = this.GetMessagesFromCookie();
-            this.CookieManager.Delete(this.MessageCookieKey);
+            this.CookieManager.Delete(this.MessagingOptions.CookieKey);
             return messages;
         }
 
         /// <summary>
         /// Gets the messages from the cookie
         /// </summary>
-        IList<IMessage> GetMessagesFromCookie()
+        IList<Message> GetMessagesFromCookie()
         {
-            var cookieValue = this.CookieManager.Get(this.MessageCookieKey);
+            var cookieValue = this.CookieManager.Get(this.MessagingOptions.CookieKey);
 
             if (string.IsNullOrWhiteSpace(cookieValue))
             {
-                return null;
+                return new List<Message>();
             }
 
-            return JsonConvert.DeserializeObject<IList<IMessage>>(cookieValue, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+            return JsonConvert.DeserializeObject<IList<Message>>(cookieValue, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
         }
 
         /// <summary>
         /// Sets the messages in the cookie
         /// </summary>
-        void SetMessagesInCookie(IList<IMessage> messages)
+        void SetMessagesInCookie(IList<Message> messages)
         {
             var serialized = JsonConvert.SerializeObject(messages, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
-            this.CookieManager.Set(this.MessageCookieKey, serialized);
+            this.CookieManager.Set(this.MessagingOptions.CookieKey, serialized);
         }
     }
 }

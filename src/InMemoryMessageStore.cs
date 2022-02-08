@@ -1,23 +1,23 @@
 using System.Collections.Generic;
 
-namespace ctorx.Core.Mvc.Messaging
+namespace ctorx.Core.AspNet.Messaging
 {
-    public class InMemoryMessageStore : IMessageStore
+    public sealed class InMemoryMessageStore : IMessageStore
     {
-        readonly IList<IMessage> Messages;
+        readonly IList<Message> Messages;
 
         /// <summary>
         /// ctor the Mighty
         /// </summary>
         public InMemoryMessageStore()
         {
-            this.Messages = new List<IMessage>();
+            this.Messages = new List<Message>();
         }
 
         /// <summary>
         /// Adds a message to the message store
         /// </summary>
-        public void AddMessage(IMessage message)
+        public void AddMessage(Message message)
         {
             this.Messages.Add(message);
         }
@@ -25,9 +25,9 @@ namespace ctorx.Core.Mvc.Messaging
         /// <summary>
         /// Gets messages in the message store
         /// </summary>
-        public IList<IMessage> GetMessages()
+        public IList<Message> GetMessages()
         {
-            var forReturn = new List<IMessage>(this.Messages);
+            var forReturn = new List<Message>(this.Messages);
             this.Messages.Clear();
             return forReturn;
         }
