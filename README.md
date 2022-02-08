@@ -1,5 +1,5 @@
-# ctorx.Core.Mvc.Messaging
-A simple framework for persisting messages between ASP.NET MVC Requests
+# ctorx.Core.AspNet.Messaging
+A simple framework for persisting messages between ASP.NET Requests
 
 ## What is it?
 A simple messaging system for notifying users about statuses of the operations they perform on your web application (i.e. letting users know when things worked or didn't work), either in the same request or after redirection.
@@ -10,32 +10,16 @@ Use the extension method like this:
 ```csharp
 services.AddMessaging();
 ```
-
-Or, if you must, you can wire it up cowboy style like this:
-
-Becuse the library is dependent on [ctorx.Core.Mvc.Cookies](https://github.com/ctorx/ctorx.Core.Mvc.Cookies), you need to wire it up also:
-```csharp
-services.AddScoped<ICookieManager, DefaultCookieManager>();
-```
-Then, wire messaging:
-```csharp
-services.AddScoped<IMessenger, DefaultMesenger>();
-services.AddSingleton<IMessageFactory, DefaultMessageFactory>();
-services.AddScoped<InMemoryMessageStore>();
-services.AddScoped<InCookieMessageStore>();
-services.AddScoped<IDefaultMessages, BuiltInDefaultMessages>();
-```
-
 # Usage
 
-Add the IMessenger to your controller
+Add the Messenger to your controller
 
 ```csharp
 public class YourController : Controller
 {
-    readonly IMessenger Messenger;
+    readonly Messenger Messenger;
 
-    public YourController(IMessenger messenger)
+    public YourController(Messenger messenger)
     {
         this.Messenger = messenger;
     }
@@ -69,8 +53,8 @@ This library does not provide a way of displaying messages because your unique d
 Here is a simple example of a partial using Bootstrap classes to display messages:
 
 ```csharp
-@using ctorx.Core.Mvc.Messaging
-@inject IMessenger Messenger
+@using ctorx.Core.AspNet.Messaging
+@inject Messenger Messenger
 @{
     var messages = this.Messenger.GetMessages();
 }
@@ -85,7 +69,7 @@ Here is a simple example of a partial using Bootstrap classes to display message
 
             if (message.IsDismissable)
             {
-                messageClasses.Add("alert-dismissable");
+                messageClasses.Add("alert-dismissible");
             }
 
             switch (message.Type)
@@ -112,7 +96,7 @@ Here is a simple example of a partial using Bootstrap classes to display message
             }
 
             <div class="@(string.Join(" ", messageClasses))" role="alert">
-                @if (message.IsDismissable)
+                @if (message.IsDismissible)
                 {
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
                 }
@@ -131,14 +115,10 @@ Here is a simple example of a partial using Bootstrap classes to display message
 ```
 
 ## Where can I get it?
-Install from [Nuget](https://www.nuget.org/packages/ctorx.Core.Mvc.Messaging/) 
+Install from [Nuget](https://www.nuget.org/packages/ctorx.Core.AspNet.Messaging/) 
 ```
-Install-Package ctorx.Core.Mvc.Messaging
+Install-Package ctorx.Core.AspNet.Messaging
 ```
 
 ## License, etc.
-ctorx.Core.Mvc.Messaging is copyright © 2017 Matthew Marksbury and other contributors under the MIT license.
-
-
-## Roadmap
-There is no roadmap at this time
+ctorx.Core.AspNet.Messaging is copyright © 2022 Matthew Marksbury and other contributors under the MIT license.
