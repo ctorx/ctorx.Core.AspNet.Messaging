@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ctorx.Core.AspNet.Messaging;
 using ctorx.Core.AspNet.Messaging.Extensions;
-using ctorx.Core.Mvc.Cookies;
+using ctorx.Core.AspNet.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

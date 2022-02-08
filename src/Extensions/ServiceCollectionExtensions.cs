@@ -1,6 +1,6 @@
 ﻿using System;
+using ctorx.Core.AspNet.Cookies.Extensions;
 using ctorx.Core.AspNet.Messaging.Options;
-using ctorx.Core.Mvc.Cookies.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ctorx.Core.AspNet.Messaging.Extensions

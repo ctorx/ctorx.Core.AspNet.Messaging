@@ -1,6 +1,7 @@
+using System;
 using System.Collections.Generic;
+using ctorx.Core.AspNet.Cookies;
 using ctorx.Core.AspNet.Messaging.Options;
-using ctorx.Core.Mvc.Cookies;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -8,13 +9,13 @@ namespace ctorx.Core.AspNet.Messaging
 {
     public sealed class InCookieMessageStore : IMessageStore
     {
-        readonly ICookieManager CookieManager;
+        readonly CookieManager CookieManager;
         readonly MessagingOptions MessagingOptions;
 
         /// <summary>
         /// ctor the Mighty
         /// </summary>
-        public InCookieMessageStore(ICookieManager cookieManager, IOptions<MessagingOptions> messagingOptionsProvider)
+        public InCookieMessageStore(CookieManager cookieManager, IOptions<MessagingOptions> messagingOptionsProvider)
         {
             this.MessagingOptions = messagingOptionsProvider.Value;
             this.CookieManager = cookieManager;
@@ -51,8 +52,14 @@ namespace ctorx.Core.AspNet.Messaging
             {
                 return new List<Message>();
             }
+            
+            var result = JsonConvert.DeserializeObject<IList<Message>>(cookieValue, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+            if (result == null)
+            {
+                throw new InvalidOperationException("Could not deserialize cookie json message payload");
+            }
 
-            return JsonConvert.DeserializeObject<IList<Message>>(cookieValue, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+            return result;
         }
 
         /// <summary>

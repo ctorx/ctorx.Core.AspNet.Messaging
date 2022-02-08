@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -12,19 +12,19 @@
 		<Description>Framework for persisting messages between ASP.NET Core Requests</Description>
 		<PackageTags></PackageTags>
 		<PackageProjectUrl>https://github.com/ctorx/ctorx.Core.AspNet.Messaging/</PackageProjectUrl>
-		<PackageLicenseUrl>https://github.com/ctorx/ctorx.Core.Mvc.Messaging/master/LICENSE</PackageLicenseUrl>
+		<PackageLicenseUrl>https://github.com/ctorx/ctorx.Core.AspNet.Messaging/master/LICENSE</PackageLicenseUrl>
 		<Copyright>Copyright (c) 2022 Matthew Marksbury</Copyright>
-		<Version>2.0.0</Version>
+		<Version>2.0.1</Version>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<AssemblyVersion>2.0.0.0</AssemblyVersion>
-		<FileVersion>2.0.0.0</FileVersion>
+		<AssemblyVersion>2.0.1.0</AssemblyVersion>
+		<FileVersion>2.0.1.0</FileVersion>
+		<PackageReleaseNotes>Package updates</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ctorx.Core.Mvc.Cookies" Version="1.0.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.Http" Version="1.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
-		<PackageReference Update="NETStandard.Library" Version="1.0.0" />
+		<PackageReference Include="ctorx.Core.AspNet.Cookies" Version="2.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
 </Project>
