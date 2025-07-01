@@ -44,6 +44,14 @@ namespace ctorx.Core.AspNet.Messaging
         }
 
         /// <summary>
+        /// Appends a message
+        /// </summary>
+        public void Append(MessageType messageType, string messageText, string? caption = null)
+        {
+            this.CreateAndAppendMessage(messageType, messageText, caption);
+        }
+
+        /// <summary>
         /// Appends an info message
         /// </summary>
         public void AppendInfo(string messageText, string? caption = null)
@@ -76,6 +84,14 @@ namespace ctorx.Core.AspNet.Messaging
         }
         
         /// <summary>
+        /// Forwards a message
+        /// </summary>
+        public void Forward(MessageType messageType, string messageText, string? caption = null)
+        {
+            this.CreateAndForwardMessage(messageType, messageText, caption);
+        }
+
+        /// <summary>
         /// Forwards an info message
         /// </summary>
         public void ForwardInfo(string messageText, string? caption = null)
@@ -105,6 +121,6 @@ namespace ctorx.Core.AspNet.Messaging
         public void ForwardError(string messageText, string? caption = null)
         {
             this.CreateAndForwardMessage(MessageType.Error, messageText, caption);
-        }        
+        }
     }
 }
