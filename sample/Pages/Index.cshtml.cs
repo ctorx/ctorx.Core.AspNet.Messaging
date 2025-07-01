@@ -27,14 +27,26 @@ namespace Sample.Pages
         public void OnGet()
         {
             // Append some messages
-            this.Messenger.AppendError("This is an example of an appended message", "Appended Message");
-
+            if(string.IsNullOrWhiteSpace(Request.Query["fwd"]))
+            {
+                this.Messenger.AppendError("This is an example of an appended message with a caption", "Appended Message");
+                this.Messenger.AppendError(); // Append a generic error message
+                this.Messenger.AppendSuccess(); // Append a generic success message
+                this.Messenger.AppendSuccess(caption: "Generic message, custom caption");
+                this.Messenger.AppendSuccess(messageText: "Generic caption, custom message");
+            }
         }
 
         public ActionResult OnPost()
         {
             this.Messenger.ForwardSuccess(this.NewMessageText, "Forwarded Message");
-            return this.Redirect(this.Request.GetEncodedUrl());
+            this.Messenger.ForwardError(); // Append a generic error message
+            this.Messenger.ForwardSuccess(); // Append a generic success message
+            this.Messenger.ForwardSuccess(caption: "Caption Text");
+            this.Messenger.ForwardSuccess(messageText: "Message Text");
+
+
+            return this.Redirect(this.Request.GetEncodedUrl() + "?fwd=1");
         }
     }
 }

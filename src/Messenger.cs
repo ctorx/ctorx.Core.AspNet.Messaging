@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using ctorx.Core.AspNet.Messaging.Options;
+using Microsoft.Extensions.Options;
 
 namespace ctorx.Core.AspNet.Messaging
 {
@@ -7,10 +10,11 @@ namespace ctorx.Core.AspNet.Messaging
     {
         readonly InMemoryMessageStore InMemoryMessageStore;
         readonly InCookieMessageStore InCookieMessageStore;
+        readonly MessagingOptions Options;
 
-        public Messenger(InMemoryMessageStore inMemoryMessageStore, 
-            InCookieMessageStore inCookieMessageStore)
+        public Messenger(IOptions<MessagingOptions> optionsProvider, InMemoryMessageStore inMemoryMessageStore, InCookieMessageStore inCookieMessageStore)
         {
+            this.Options = optionsProvider.Value;
             this.InMemoryMessageStore = inMemoryMessageStore;
             this.InCookieMessageStore = inCookieMessageStore;
         }
@@ -70,19 +74,20 @@ namespace ctorx.Core.AspNet.Messaging
         /// <summary>
         /// Appends an Success message
         /// </summary>
-        public void AppendSuccess(string messageText, string? caption = null)
+        public void AppendSuccess(string? messageText = null, string? caption = null)
         {
-            this.CreateAndAppendMessage(MessageType.Success, messageText, caption);
+            this.CreateAndAppendMessage(MessageType.Success, messageText ?? this.Options.DefaultSuccessMessage ?? throw new InvalidOperationException("A default success message has not been provided"), caption ?? this.Options.DefaultSuccessCaption);
         }
         
         /// <summary>
         /// Appends an Error message
         /// </summary>
-        public void AppendError(string messageText, string? caption = null)
+        public void AppendError(string? messageText = null, string? caption = null)
         {
-            this.CreateAndAppendMessage(MessageType.Error, messageText, caption);
+            this.CreateAndAppendMessage(MessageType.Error, messageText ?? this.Options.DefaultErrorMessage ?? throw new InvalidOperationException("A default error message has not been provided"), caption ?? this.Options.DefaultErrorCaption);
         }
-        
+
+
         /// <summary>
         /// Forwards a message
         /// </summary>
@@ -110,17 +115,17 @@ namespace ctorx.Core.AspNet.Messaging
         /// <summary>
         /// Forwards an Success message
         /// </summary>
-        public void ForwardSuccess(string messageText, string? caption = null)
+        public void ForwardSuccess(string? messageText = null, string? caption = null)
         {
-            this.CreateAndForwardMessage(MessageType.Success, messageText, caption);
+            this.CreateAndForwardMessage(MessageType.Success, messageText ?? this.Options.DefaultSuccessMessage ?? throw new InvalidOperationException("A default success message has not been provided"), caption ?? this.Options.DefaultSuccessCaption);
         }
         
         /// <summary>
         /// Forwards an Error message
         /// </summary>
-        public void ForwardError(string messageText, string? caption = null)
+        public void ForwardError(string? messageText = null, string? caption = null)
         {
-            this.CreateAndForwardMessage(MessageType.Error, messageText, caption);
+            this.CreateAndForwardMessage(MessageType.Error, messageText ?? this.Options.DefaultErrorMessage ?? throw new InvalidOperationException("A default error message has not been provided"), caption ?? this.Options.DefaultErrorCaption);
         }
     }
 }

@@ -32,7 +32,14 @@ namespace Sample
 
             
             services.AddRazorPages();
-            services.AddMessaging(x => x.CookieKey = "thisisthenameofthecookiekey");
+            services.AddMessaging(x =>
+            {
+                x.CookieKey = "thisisthenameofthecookiekey";
+                x.DefaultErrorMessage = "An error has occurred. Please try again later.";
+                x.DefaultSuccessMessage = "Your operation was successful.";
+                x.DefaultSuccessCaption = "You did it!";
+                x.DefaultErrorCaption = "Uh oh!";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
