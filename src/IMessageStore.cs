@@ -13,5 +13,10 @@ namespace ctorx.Core.AspNet.Messaging
 		/// Gets messages in the message store
 		/// </summary>
 		IList<Message> GetMessages();
-	}
+
+        /// <summary>
+        /// Clears all messages from the message store
+        /// </summary>
+        void Clear();
+    }
 }

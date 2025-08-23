@@ -20,6 +20,15 @@ namespace ctorx.Core.AspNet.Messaging
         }
 
         /// <summary>
+        /// Clears all messages
+        /// </summary>
+        public void ClearAllMessages()
+        {
+            this.InMemoryMessageStore.Clear();
+            this.InCookieMessageStore.Clear();
+        }
+
+        /// <summary>
         /// Creates and appends a message
         /// </summary>
         void CreateAndAppendMessage(MessageType type, string messageText, string? caption)

@@ -31,5 +31,13 @@ namespace ctorx.Core.AspNet.Messaging
             this.Messages.Clear();
             return forReturn;
         }
+
+        /// <summary>
+        /// Clears all messages from the message store
+        /// </summary>
+        public void Clear()
+        {
+            this.Messages.Clear();
+        }
     }
 }

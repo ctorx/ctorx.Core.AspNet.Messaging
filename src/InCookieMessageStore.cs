@@ -42,6 +42,14 @@ namespace ctorx.Core.AspNet.Messaging
         }
 
         /// <summary>
+        /// Clears all messages from the message store
+        /// </summary>
+        public void Clear()
+        {
+            this.CookieManager.Delete(this.MessagingOptions.CookieKey);
+        }
+
+        /// <summary>
         /// Gets the messages from the cookie
         /// </summary>
         IList<Message> GetMessagesFromCookie()
@@ -54,12 +62,7 @@ namespace ctorx.Core.AspNet.Messaging
             }
             
             var result = JsonConvert.DeserializeObject<IList<Message>>(cookieValue, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
-            if (result == null)
-            {
-                throw new InvalidOperationException("Could not deserialize cookie json message payload");
-            }
-
-            return result;
+            return result ?? new List<Message>();
         }
 
         /// <summary>
