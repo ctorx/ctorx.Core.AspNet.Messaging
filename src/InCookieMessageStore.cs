@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using ctorx.Core.AspNet.Cookies;
 using ctorx.Core.AspNet.Messaging.Options;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -71,7 +73,7 @@ namespace ctorx.Core.AspNet.Messaging
         void SetMessagesInCookie(IList<Message> messages)
         {
             var serialized = JsonConvert.SerializeObject(messages, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
-            this.CookieManager.Set(this.MessagingOptions.CookieKey, serialized);
+            this.CookieManager.Set(this.MessagingOptions.CookieKey, serialized, new CookieOptions { IsEssential = true, Path = "/", SameSite = SameSiteMode.Strict, HttpOnly = true});
         }
     }
 }
